@@ -4,7 +4,7 @@ import (
   "github.com/jinzhu/gorm"
   _ "github.com/lib/pq"
   "github.com/revel/revel"
-  "map1/app/models"
+  "github.com/ehrudxo/revel_test1/app/models"
 )
 type GormController struct {
   *revel.Controller
