@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/revel/revel"
 	"github.com/ehrudxo/revel_test1/app/models"
-  // "github.com/kellydunn/golang-geo"
+  // 
 )
 
 type GoMap struct {
