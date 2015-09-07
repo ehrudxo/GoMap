@@ -25,31 +25,44 @@ func (c GoMap) Index() revel.Result {
 //look at the Custom Result More.
 
 func (c GoMap) Toilet() revel.Result {
-	var bbox string
+	var bbox,srs,widthStr,heightStr string
+	srsNo:=2097
 	c.Params.Bind(&bbox, "BBOX")
+	c.Params.Bind(&srs, "SRS")
+	c.Params.Bind(&widthStr, "WIDTH")
+	c.Params.Bind(&heightStr, "HEIGHT")
+	splited:=strings.Split(srs,"EPSG:")
+	if(len(splited)>1){
+		srsNo,_ = strconv.Atoi(splited[1])
+	}else{
+		srsNo,_ = strconv.Atoi(splited[0])
+	}
 	var bboxSlice = strings.Split(bbox,",");
-	fmt.Println(bbox);
-  var toilets []models.Toilet
+	var toilets []models.Toilet
 	//177000,437000,219000,466000
-	minx,_ := strconv.Atoi(bboxSlice[0])
-	miny,_ := strconv.Atoi(bboxSlice[1])
-	maxx,_ := strconv.Atoi(bboxSlice[2])
-	maxy,_ := strconv.Atoi(bboxSlice[3])
-  Db.Where("geom && ST_MakeEnvelope(?,?,?,?,?)",minx,miny,maxx,maxy,epsg).Find(&toilets);
-	fmt.Println();
-	// minP := models.Point{177000, 437000}
-	// maxP := models.Point{219000, 466000}
-	// bnd := &models.Bounds{models.Rectangle{minP,maxP}}
-	fmt.Println(minx,miny,maxx,maxy);
-	minP := models.Point{minx,miny}
-  maxP := models.Point{maxx,maxy}
+	minx,err := strconv.ParseFloat(bboxSlice[0],64)
+	miny,err := strconv.ParseFloat(bboxSlice[1],64)
+	maxx,err := strconv.ParseFloat(bboxSlice[2],64)
+	maxy,err := strconv.ParseFloat(bboxSlice[3],64)
+	width,err  := strconv.Atoi(widthStr)
+	height,err := strconv.Atoi(heightStr)
+	fmt.Println("converted",minx,miny,maxx,maxy,width,height);
+  Db.Where("geom && ST_Transform(ST_MakeEnvelope(?,?,?,?,?),2097)",minx,miny,maxx,maxy,srsNo).Find(&toilets);
+	var contertedBndStr string
+	srsNoStr :=strconv.Itoa(srsNo)
+	rows, err := Db.Model(toilets).First(&contertedBndStr).Select("ST_Transform(ST_MakeEnvelope("+bboxSlice[0]+","+bboxSlice[1]+","+bboxSlice[2]+","+bboxSlice[3]+","+srsNoStr+"),2097))").Rows() // (*sql.Rows, error)
+	defer rows.Close()
+	fmt.Println("converted bounds : ",contertedBndStr);
+	fmt.Println(len(toilets));
+	minP := models.Point{int(minx),int(miny)}
+  maxP := models.Point{int(maxx),int(maxy)}
   bnd := &models.Bounds{models.Rectangle{minP,maxP}}
-  filename := services.DrawPoint( toilets, bnd, 1024, 768 )
-	fmt.Println(revel.BasePath,filename);
+  filename := services.DrawPoint( toilets, bnd, width,height )
+ 	fmt.Println(revel.BasePath,filename);
 	file, _ := os.Open(revel.BasePath+"/output/wms/"+filename)
 	// defer file.Close()
 	fileInfo, err:= file.Stat()
-	fmt.Println(fileInfo.Size(), err) //the err is nil
+	fmt.Println(fileInfo,err) //the err is nil
 	// return c.Render(filename)
 	return c.RenderFile(file, revel.Inline )//Not an attachment. But Who disconnect the file.
 }

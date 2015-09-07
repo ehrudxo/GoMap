@@ -5,6 +5,7 @@ import (
   "image/color"
   "fmt"
   "strconv"
+  "github.com/revel/revel"
   "github.com/ninjasphere/draw2d/draw2dkit"
   "github.com/ninjasphere/draw2d/draw2dimg"
   "github.com/ehrudxo/revel_test1/app/models"
@@ -17,6 +18,7 @@ func PrintPoint(toilets []models.Toilet) {
   }
 }
 func DrawPoint( toilets []models.Toilet, b *models.Bounds, imgWidth int, imgHeight int) string{
+  fmt.Println(imgWidth,imgHeight);
   filename := strconv.Itoa(b.Min.X) + "_" + strconv.Itoa(b.Min.Y)
   filename += "_" + strconv.Itoa(b.Max.X) + "_" + strconv.Itoa(b.Max.Y)
   filename += "_" +strconv.Itoa(imgWidth) + "_" + strconv.Itoa(imgHeight) +".png"
@@ -35,6 +37,6 @@ func DrawPoint( toilets []models.Toilet, b *models.Bounds, imgWidth int, imgHeig
     gc.FillStroke()
   }
   gc.Close()
-  draw2dimg.SaveToPngFile("output/wms/"+filename, dest)
+  draw2dimg.SaveToPngFile(revel.BasePath+"/output/wms/"+filename, dest)
   return filename
 }

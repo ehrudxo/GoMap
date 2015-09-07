@@ -1,4 +1,7 @@
 {{set . "title" "Home"}}
+{{append . "moreStyles" "css/map.css"}}
+{{append . "moreScripts" "js/jquery-1.9.1.min.js"}}
+{{append . "moreScripts" "js/map.js"}}
 {{template "header.html" .}}
 
 <header class="hero-unit" style="background-color:#A9F16C">
@@ -20,5 +23,4 @@
     </div>
   </div>
 </div>
-
 {{template "footer.html" .}}
