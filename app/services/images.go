@@ -18,7 +18,7 @@ func PrintPoint(toilets []models.Toilet) {
   }
 }
 func DrawPoint( toilets []models.Toilet, b *models.Bounds, imgWidth int, imgHeight int) string{
-  fmt.Println(imgWidth,imgHeight);
+  // fmt.Println(imgWidth,imgHeight);
   filename := strconv.Itoa(b.Min.X) + "_" + strconv.Itoa(b.Min.Y)
   filename += "_" + strconv.Itoa(b.Max.X) + "_" + strconv.Itoa(b.Max.Y)
   filename += "_" +strconv.Itoa(imgWidth) + "_" + strconv.Itoa(imgHeight) +".png"
@@ -33,7 +33,7 @@ func DrawPoint( toilets []models.Toilet, b *models.Bounds, imgWidth int, imgHeig
     dx := (toilet.Geom.Lng-float64(b.Min.X))/float64(HRes)//x
     dy := float64(imgHeight) - (toilet.Geom.Lat-float64(b.Min.Y))/float64(VRes)//y
     // fmt.Println("toilet :", toilet,dx,dy);
-    draw2dkit.Circle(gc, dx, dy, 5)
+    draw2dkit.Circle(gc, dx, dy, 3)
     gc.FillStroke()
   }
   gc.Close()

@@ -39,30 +39,32 @@ func (c GoMap) Toilet() revel.Result {
 	}
 	var bboxSlice = strings.Split(bbox,",");
 	var toilets []models.Toilet
-	//177000,437000,219000,466000
+
 	minx,err := strconv.ParseFloat(bboxSlice[0],64)
 	miny,err := strconv.ParseFloat(bboxSlice[1],64)
 	maxx,err := strconv.ParseFloat(bboxSlice[2],64)
 	maxy,err := strconv.ParseFloat(bboxSlice[3],64)
 	width,err  := strconv.Atoi(widthStr)
 	height,err := strconv.Atoi(heightStr)
-	fmt.Println("converted",minx,miny,maxx,maxy,width,height);
-  Db.Where("geom && ST_Transform(ST_MakeEnvelope(?,?,?,?,?),2097)",minx,miny,maxx,maxy,srsNo).Find(&toilets);
-	var contertedBndStr string
-	srsNoStr :=strconv.Itoa(srsNo)
-	rows, err := Db.Model(toilets).First(&contertedBndStr).Select("ST_Transform(ST_MakeEnvelope("+bboxSlice[0]+","+bboxSlice[1]+","+bboxSlice[2]+","+bboxSlice[3]+","+srsNoStr+"),2097))").Rows() // (*sql.Rows, error)
-	defer rows.Close()
-	fmt.Println("converted bounds : ",contertedBndStr);
-	fmt.Println(len(toilets));
+
+	selectQuery:="Gid,Gu_nm,Hnr_nam,Mtc_at,Masterno,Slaveno,Neadres_nm,Wc_nam,Wc_gbn,Hd_wc_yno,Creat_de,Po_fe_nm,"
+	selectQuery+="ST_Transform(Geom,3857) as Geom"
+	whereQuery:="geom && ST_Transform(ST_MakeEnvelope(?,?,?,?,?),2097)"
+  Db.Where(whereQuery,minx,miny,maxx,maxy,srsNo).Select(selectQuery).Find(&toilets)
+
 	minP := models.Point{int(minx),int(miny)}
   maxP := models.Point{int(maxx),int(maxy)}
   bnd := &models.Bounds{models.Rectangle{minP,maxP}}
   filename := services.DrawPoint( toilets, bnd, width,height )
- 	fmt.Println(revel.BasePath,filename);
+ // 	fmt.Println(revel.BasePath,filename);
 	file, _ := os.Open(revel.BasePath+"/output/wms/"+filename)
-	// defer file.Close()
-	fileInfo, err:= file.Stat()
-	fmt.Println(fileInfo,err) //the err is nil
-	// return c.Render(filename)
+
+	if err != nil {
+		fmt.Println(err) //the err is nil
+		return nil
+	}
+	defer func(){
+		os.Remove(revel.BasePath+"/output/wms/"+filename)
+	}()
 	return c.RenderFile(file, revel.Inline )//Not an attachment. But Who disconnect the file.
 }
