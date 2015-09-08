@@ -2,9 +2,9 @@ package main
 
 import (
   "fmt"
-  "github.com/ehrudxo/revel_test1/app/services"
-  "github.com/ehrudxo/revel_test1/app/controllers"
-  "github.com/ehrudxo/revel_test1/app/models"
+  "github.com/ehrudxo/GoMap/app/services"
+  "github.com/ehrudxo/GoMap/app/controllers"
+  "github.com/ehrudxo/GoMap/app/models"
 )
 //ninjasphere is very important
 func main(){

@@ -7,8 +7,8 @@ import (
 	"strconv"
 	_ "net/http"
 	"github.com/revel/revel"
-	"github.com/ehrudxo/revel_test1/app/models"
-	"github.com/ehrudxo/revel_test1/app/services"
+	"github.com/ehrudxo/GoMap/app/models"
+	"github.com/ehrudxo/GoMap/app/services"
 )
 const epsg = 2097
 

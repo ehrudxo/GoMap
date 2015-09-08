@@ -8,7 +8,7 @@ import (
   "github.com/revel/revel"
   "github.com/ninjasphere/draw2d/draw2dkit"
   "github.com/ninjasphere/draw2d/draw2dimg"
-  "github.com/ehrudxo/revel_test1/app/models"
+  "github.com/ehrudxo/GoMap/app/models"
 )
 
 func PrintPoint(toilets []models.Toilet) {

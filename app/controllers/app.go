@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/revel/revel"
-	"github.com/ehrudxo/revel_test1/app/models"
+	"github.com/ehrudxo/GoMap/app/models"
 )
 
 type App struct {

@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/revel/revel"
-	"github.com/ehrudxo/revel_test1/app/controllers"
+	"github.com/ehrudxo/GoMap/app/controllers"
 )
 
 func init() {
