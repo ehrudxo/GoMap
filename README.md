@@ -54,8 +54,22 @@ shp2pgsql -I -s 2097 <PATH/TO/SHAPEFILE> <DBTABLE> > SHAPEFILE.sql
 2. sql loading
 psql -d <DATABASE> -f SHAPEFILE.sql
 
-## go Lang coding
-### GoLang code
+## Writing Go application
+
+1. Make a mock code from revel command
+  ```
+    revel new myApp
+  ```
+  directoy structure is shown below.
+
+2. Setting ORM tool for application
+  You can set ORM tool like GORM, GORP
+
+  In this application, you learn how to setup GORM
+
+3. Make controller for maps
+
+
 #### Test code authoring
 #### Test URL authoring
 ##### test URL
