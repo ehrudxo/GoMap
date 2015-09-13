@@ -39,10 +39,15 @@ revel new myNewMap
 
 ## map settings
 This project contains shape file.
+
 You can also download shape files from
+
 http://data.seoul.go.kr/openinf/mapview.jsp?infId=OA-365
+
 It's Korean Gov. open data.
+
 License is under BY(CC)
+
 Author is Seoul Si(서울시)
 
 ### shp2 -> postgis
@@ -60,12 +65,32 @@ psql -d <DATABASE> -f SHAPEFILE.sql
   ```
     revel new myApp
   ```
-  directoy structure is shown below.
+  once you execute this command, directoy structure will be shown below.
+  ```
+  myapp/               App root
+    app/               App sources
+      controllers/     App controllers
+        app.go         Sample Contoller
+      views/           Templates
+        App/           View Files
+          index.html   Sample View File
+        errors/        error file
+      init.go          Interceptor registration
+    tests/             Test suites
+    conf/              Configuration files
+      app.conf        Main configuration file
+      routes          Routes definition
+    messages/          Message files
+    public/            Public assets
+      css/             CSS files
+      js/              Javascript files
+      images/          Image files
+  ```
 
 2. Setting ORM tool for application
   You can set ORM tool like GORM, GORP
 
-  In this application, you learn how to setup GORM
+  In this application, you will learn how to setup GORM
 
 3. Make controller for maps
 
