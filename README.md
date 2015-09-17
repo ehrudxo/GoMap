@@ -55,7 +55,7 @@ Author is Seoul Si(서울시)
 SHP file is not UTF-8, 2 steps needed to be done
 
 1. convert shape file to sql file
-shp2pgsql -I -s 2097 <PATH/TO/SHAPEFILE> <DBTABLE> > SHAPEFILE.sql
+shp2pgsql -I -W euc-kr -s 2097 <PATH/TO/SHAPEFILE> <DBTABLE> > SHAPEFILE.sql
 2. sql loading
 psql -d <DATABASE> -f SHAPEFILE.sql
 
