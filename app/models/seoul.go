@@ -1,3 +1,4 @@
+//It will be deleted
 package models
 import (
   "bytes"

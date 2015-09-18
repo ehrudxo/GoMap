@@ -23,6 +23,7 @@ func (c GoMap) Index() revel.Result {
 	return c.Render(maps)
 }
 //look at the Custom Result More.
+//it would be change to WMS common Contoller.
 
 func (c GoMap) Toilet() revel.Result {
 	var bbox,srs,widthStr,heightStr string
@@ -31,6 +32,7 @@ func (c GoMap) Toilet() revel.Result {
 	c.Params.Bind(&srs, "SRS")
 	c.Params.Bind(&widthStr, "WIDTH")
 	c.Params.Bind(&heightStr, "HEIGHT")
+
 	splited:=strings.Split(srs,"EPSG:")
 	if(len(splited)>1){
 		srsNo,_ = strconv.Atoi(splited[1])
@@ -67,4 +69,9 @@ func (c GoMap) Toilet() revel.Result {
 		os.Remove(revel.BasePath+"/output/wms/"+filename)
 	}()
 	return c.RenderFile(file, revel.Inline )//Not an attachment. But Who disconnect the file.
+}
+// I would like to add Function that model can be loaded automatically.
+// and database would be pluggable 
+func (c GoMap) Toilet() revel.Result {
+
 }
